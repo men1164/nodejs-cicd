@@ -8,7 +8,7 @@ on:
 jobs:
   test:
     name: Running test workflow
-    uses: ./github/workflows/test.yaml@develop
+    uses: ./.github/workflows/test.yaml
 
   docker:
     # Only start this job after job `test` finished successfully
