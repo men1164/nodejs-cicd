@@ -1,7 +1,9 @@
 name: Test workflows
-run-name: "[${{ github.sha }}] Triggering test by ${{ github.actor }}"
+run-name: 'Triggering test by ${{ github.actor }}'
 
 on:
+  # Allow this workflow to be reused/called
+  workflow_call:
   push:
     branches: [main, develop]
   pull_request:
@@ -12,7 +14,7 @@ jobs:
     name: Test TypeScript code for event ${{ github.event_name }} on ${{ github.ref }}
     strategy:
       matrix:
-        nodeversion: [">=18.x", latest]
+        nodeversion: ['>=18.x', latest]
         os: [ubuntu-latest, macos-latest]
 
     runs-on: ${{ matrix.os }}
