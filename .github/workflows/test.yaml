@@ -2,6 +2,8 @@ name: Test workflows
 run-name: "Triggering test by ${{ github.actor }}"
 
 on:
+  # Allow this workflow to be reused/called
+  workflow_call:
   push:
     branches: [main, develop]
   pull_request:

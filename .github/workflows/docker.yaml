@@ -1,12 +1,18 @@
 name: Build and push Docker image
-run-name: "Triggering test by ${{ github.actor }}"
+run-name: "Building Docker image by ${{ github.actor }}: ${{ github.event_name }} on ${{ github.ref }}"
 
 on:
   push:
     tags: "**"
 
 jobs:
+  test:
+    name: Running test workflow
+    uses: ./github/workflows/test
+
   docker:
+    # Only start this job after job `test` finished successfully
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checking out ${{ github.ref }} ${{ github.sha }}
@@ -24,4 +30,5 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: artnoi/nodejs-cicd:latest
+          file: ./Dockerfile
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/nodejs-cicd:latest
